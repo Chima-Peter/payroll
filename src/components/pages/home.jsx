@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Nav from '../utils/nav'
 import validator from 'validator'
 import { motion} from 'framer-motion'
@@ -9,7 +9,8 @@ function Home() {
    const [formDetails, setFormDetails] = useState({
       name: '',
       phone: '',
-      entries: {}
+      entries: {},
+      carryover: '0'
    })
    const [nameError, setNameError] = useState(' ')
    const [phoneError, setPhoneError] = useState(' ')
@@ -17,6 +18,11 @@ function Home() {
    const [success, setSuccess] = useState(false)
 
 
+   useEffect(() => {
+      const employeeData = localStorage.getItem('employeeData')
+      if (!employeeData)
+            localStorage.setItem('employeeData', JSON.stringify({}))
+   },[])
 
    const handleChange = () => {
       setFormDetails({ ...formDetails, [event.target.name]: event.target.value})
@@ -42,6 +48,7 @@ function Home() {
          }
    }
 
+   
    const handlePhoneBlur = () => {
       if (!validator.isEmpty(formDetails.phone)) {
          if (validator.isMobilePhone(formDetails.phone)) {
@@ -61,16 +68,23 @@ function Home() {
 
    const handleSubmit = () => {
       event.preventDefault()
-      if (handleNameBlur()&& handlePhoneBlur()) {
-         localStorage.setItem(formDetails.name, JSON.stringify(formDetails))
-         setFormDetails({
-            name: '',
-            phone: '',
-            entries: {}
-         })
-         setSuccess(true)
-         setTimeout(() => { setSuccess(false) }, 5000)
-      }
+      if (window.confirm('Are you sure you want to add this employee?'))
+         {
+            if (handleNameBlur()&& handlePhoneBlur()) {
+            let employeeData = localStorage.getItem('employeeData')
+            employeeData = JSON.parse(employeeData)
+            employeeData[formDetails.name] = formDetails
+            localStorage.setItem('employeeData', JSON.stringify(employeeData))
+            setFormDetails({
+               name: '',
+               phone: '',
+               entries: {},
+               carryover: '0'
+            })
+            setSuccess(true)
+            setTimeout(() => { setSuccess(false) }, 5000)
+         }
+         }
    }
 
 
@@ -91,7 +105,9 @@ function Home() {
       <Nav />
       <form noValidate onReset={handleSubmit} className='mt-2'>
          <fieldset className='border-y-2 w-[100%] flex flex-col gap-4 p-6 border-blue-600'>
-            <legend className='text-xl px-1'>ADD EMPLOYEE</legend>
+            <legend className='text-md px-1'>
+               ADD EMPLOYEE
+            </legend>
             <label htmlFor="name" className='text-md flex-col flex'>
                Name
                <input 
@@ -101,7 +117,8 @@ function Home() {
                   onBlur={handleNameBlur} 
                   value={formDetails.name} 
                   type="text" 
-                  className="bg-blue-100 bg-clip-padding w-[50%] py-2 px-3 rounded-md focus:outline-none focus:border-2 text-gray-600 text-sm font-light focus:border-blue-600 border border-blue-600"/>
+                  autoFocus
+                  className="capitalize bg-blue-100 bg-clip-padding min-md:w-[100%] lg:w-[50%] py-2 px-3 rounded-md focus:outline-none focus:border-2 text-gray-600 text-sm font-light focus:border-blue-600 border border-blue-600"/>
                {
                   nameError && <span className='text-[10px] text-red-600 '>{nameError}</span>
                }
@@ -115,7 +132,7 @@ function Home() {
                   onChange={handleChange} 
                   onBlur={handlePhoneBlur} 
                   value={formDetails.phone} 
-                   className="bg-blue-100 bg-clip-padding w-[50%] py-2 px-3 rounded-md focus:outline-none focus:border-2 text-gray-600 text-sm font-light focus:border-blue-600 border border-blue-600"/>
+                   className="bg-blue-100 bg-clip-padding min-md:w-[100%] lg:w-[50%] py-2 px-3 rounded-md focus:outline-none focus:border-2 text-gray-600 text-sm font-light focus:border-blue-600 border border-blue-600"/>
                {
                   phoneError && <span className='text-[10px] text-red-600 '>{phoneError}</span>
                }
