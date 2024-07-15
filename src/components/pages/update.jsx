@@ -8,7 +8,7 @@ function Update() {
    const [handle, setHandle] = useState('')
    const [showPallet, setShowPallets] = useState(true)
    const [amount, setAmount] = useState('0')
-   const [tempPallet, setPallet] = useState('')
+   const [tempPallet, setPallet] = useState('0')
    const [prevPallet, setPrevPallet] = useState('')
 
    useEffect(() => {
@@ -156,7 +156,7 @@ function Update() {
                                  </label>
                }
             </div>
-            <button type="reset" className='bg-blue-600 text-white self-start py-2 px-4 text-sm rounded-md mx-4'>Add Employee</button>
+            <button type="reset" className='bg-blue-600 text-white self-start py-2 px-4 text-sm rounded-md mx-4'>Save</button>
          </fieldset>
          
       </form>
