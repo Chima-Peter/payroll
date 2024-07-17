@@ -64,7 +64,6 @@ function Report() {
                   let tempDate = new Date()
                   let yesterday  = tempDate.setDate(tempDate.getDate() - 1)
                   yesterday = new Date(yesterday)
-                  console.log(tempTable[data])
                   if (!(Object.hasOwn(tempTable[data], 'carryOver'))) {
                      tempTable[data].carryOver = 'Feature was not available yet'
                   }
@@ -117,7 +116,7 @@ function Report() {
                   </label>
                }
                <label htmlFor="start" className="flex w-[300px] gap-1 px-4 flex-col text-sm"> Start Date
-                  <input type="date" disabled={showDate} onChange={handleDate} name="start" value={formDate.start}  id="start" className="border border-gray-300 shadow-md rounded-md p-2 focus:border-blue-600 focus:border-2 focus:outline-none" />
+                  <input type="date" disabled={showDate} onChange={handleDate} name="start" value={formDate.start} max={formDate.end} id="start" className="border border-gray-300 shadow-md rounded-md p-2 focus:border-blue-600 focus:border-2 focus:outline-none" />
                </label>
                <label htmlFor="end" className="flex w-[300px] gap-1 px-4 flex-col text-sm"> End Date
                   <input type="date" disabled={showDate} onChange={handleDate} name="end" id="end" value={formDate.end} min={formDate.start}  className="border border-gray-300 shadow-md rounded-md p-2 focus:border-blue-600 focus:border-2 focus:outline-none" />
