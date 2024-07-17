@@ -21,6 +21,11 @@ function Nav() {
                Generate Report
             </NavLink>
          </li>
+         <li>
+            <NavLink to={'/delete'} className="pb-1 hover:border-b-2">
+               Delete Employee
+            </NavLink>
+         </li>
       </ul>
     </nav>
   )
