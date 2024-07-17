@@ -61,6 +61,13 @@ function Report() {
                   tempTable[data] = tempData[data]
                   let temp = Number(tempData[data].entryAmount)
                   tempSum = temp + tempSum
+                  let tempDate = new Date()
+                  let yesterday  = tempDate.setDate(tempDate.getDate() - 1)
+                  yesterday = new Date(yesterday)
+                  console.log(tempTable[data])
+                  if (!(Object.hasOwn(tempTable[data], 'carryOver'))) {
+                     tempTable[data].carryOver = 'Feature was not available yet'
+                  }
                }
          })
          setTableData(tempTable)
