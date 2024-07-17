@@ -43,7 +43,6 @@ function Update() {
       date = date.toDateString()
       let tempData = JSON.parse(localStorage.getItem('employeeData'))
       let newData = tempData[event.target.value].entries
-      console.log(newData)
       setShowPallets(true)
       if ((Object.hasOwn(newData, date))) 
          {
