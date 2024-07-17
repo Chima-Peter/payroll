@@ -15,18 +15,27 @@ function Update() {
       let tempData = localStorage.getItem('employeeData')
       if (tempData) {
          tempData = JSON.parse(tempData)
+         
+         Object.keys(tempData).map(data => {
+            let newData = tempData[data].entries
+            let temp
+            Object.keys(newData).map((entry) => {
+               temp = newData[entry]
+               if (!(Object.hasOwn(newData[entry], 'carryOver')))
+                  temp['carryOver'] = tempData[data].carryover
+               newData[entry] = temp
+               
+            })
+            tempData[data].entries = newData
+         })
          setFormDetails(tempData)
          setShow(true)
+         localStorage.setItem('employeeData', JSON.stringify(tempData))
       }
    }, [success])
 
    useEffect(() => {
-      let tempData = localStorage.getItem('employeeData')
-      if (tempData) {
-         tempData = JSON.parse(tempData)
-         setFormDetails(tempData)
-         setShow(true)
-      }
+      setSuccess(!success)
    }, [])
 
    const handleSelect = () => {
@@ -44,8 +53,39 @@ function Update() {
                let yesterday  = tempDate.setDate(tempDate.getDate() - 1)
                yesterday = new Date(yesterday)
                yesterday = yesterday.toDateString()
+               let twoDays  = tempDate.setDate(tempDate.getDate() - 1)
+               twoDays = new Date(twoDays)
+               twoDays = twoDays.toDateString()
+               let threeDays  = tempDate.setDate(tempDate.getDate() - 1)
+               threeDays = new Date(threeDays)
+               threeDays = threeDays.toDateString()
+               let fourDays  = tempDate.setDate(tempDate.getDate() - 1)
+               fourDays = new Date(fourDays)
+               fourDays = fourDays.toDateString()
+
                if ((Object.hasOwn(newData, yesterday))) {
                      tempData[event.target.value].carryover = newData[yesterday].carryOver
+                     setHandle(event.target.value)
+                     setShowPallets(false)
+                     setPrevPallet(tempData[event.target.value].carryover)
+                     localStorage.setItem('employeeData', JSON.stringify(tempData))
+               }
+               else if ((Object.hasOwn(newData, twoDays))) {
+                     tempData[event.target.value].carryover = newData[twoDays].carryOver
+                     setHandle(event.target.value)
+                     setShowPallets(false)
+                     setPrevPallet(tempData[event.target.value].carryover)
+                     localStorage.setItem('employeeData', JSON.stringify(tempData))
+               }
+               else if ((Object.hasOwn(newData, threeDays))) {
+                     tempData[event.target.value].carryover = newData[threeDays].carryOver
+                     setHandle(event.target.value)
+                     setShowPallets(false)
+                     setPrevPallet(tempData[event.target.value].carryover)
+                     localStorage.setItem('employeeData', JSON.stringify(tempData))
+               }
+               else if ((Object.hasOwn(newData, fourDays))) {
+                     tempData[event.target.value].carryover = newData[fourDays].carryOver
                      setHandle(event.target.value)
                      setShowPallets(false)
                      setPrevPallet(tempData[event.target.value].carryover)
