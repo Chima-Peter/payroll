@@ -16,21 +16,21 @@ function Update() {
       if (tempData) {
          tempData = JSON.parse(tempData)
          
-         Object.keys(tempData).map(data => {
-            let newData = tempData[data].entries
-            let temp
-            Object.keys(newData).map((entry) => {
-               temp = newData[entry]
-               if (!(Object.hasOwn(newData[entry], 'carryOver')))
-                  temp['carryOver'] = tempData[data].carryover
-               newData[entry] = temp
+         // Object.keys(tempData).map(data => {
+         //    let newData = tempData[data].entries
+         //    let temp
+         //    Object.keys(newData).map((entry) => {
+         //       temp = newData[entry]
+         //       if (!(Object.hasOwn(newData[entry], 'carryOver')))
+         //          temp['carryOver'] = tempData[data].carryover
+         //       newData[entry] = temp
                
-            })
-            tempData[data].entries = newData
-         })
+         //    })
+         //    tempData[data].entries = newData
+         // })
          setFormDetails(tempData)
          setShow(true)
-         localStorage.setItem('employeeData', JSON.stringify(tempData))
+         // localStorage.setItem('employeeData', JSON.stringify(tempData))
       }
    }, [success])
 
