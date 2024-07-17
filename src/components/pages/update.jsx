@@ -30,9 +30,44 @@ function Update() {
    }, [])
 
    const handleSelect = () => {
-      setHandle(event.target.value)
-      setShowPallets(false)
-      setPrevPallet(formDetails[event.target.value].carryover)
+      let date = new Date()
+      date = date.toDateString()
+      let tempData = JSON.parse(localStorage.getItem('employeeData'))
+      let newData = tempData[event.target.value].entries
+      console.log(newData)
+      setShowPallets(true)
+      if ((Object.hasOwn(newData, date))) 
+         {
+            if (window.confirm("You've already saved data for this employee. Do you want to overwrite it?"))
+            {
+               let tempDate = new Date()
+               let yesterday  = tempDate.setDate(tempDate.getDate() - 1)
+               yesterday = new Date(yesterday)
+               yesterday = yesterday.toDateString()
+               if ((Object.hasOwn(newData, yesterday))) {
+                     tempData[event.target.value].carryover = newData[yesterday].carryOver
+                     setHandle(event.target.value)
+                     setShowPallets(false)
+                     setPrevPallet(tempData[event.target.value].carryover)
+                     localStorage.setItem('employeeData', JSON.stringify(tempData))
+               }
+               else {
+                  setHandle(event.target.value)
+                  setShowPallets(false)
+                  tempData[event.target.value].carryover = '0'
+                  setPrevPallet(tempData[event.target.value].carryover)
+                  localStorage.setItem('employeeData', JSON.stringify(tempData))
+               }
+            }
+         else {
+            event.target.value = ''
+         }
+         }
+      else {
+         setHandle(event.target.value)
+         setShowPallets(false)
+         setPrevPallet(formDetails[event.target.value].carryover)
+      }
    }
 
    const handlePalletBlur = () => {
@@ -72,8 +107,9 @@ function Update() {
          date = date.toDateString()
          const temp = {
             entryAmount: tempAmount,
-            entryPallet: (pallets - tempCarryover),
-            entryDate: date
+            entryPallet: pallets,
+            entryDate: date,
+            carryOver: tempCarryover
          }
          newData[date] = temp
          tempData[handle].entries = newData
