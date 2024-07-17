@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Nav from '../utils/nav'
 import validator from 'validator'
 import { motion} from 'framer-motion'
@@ -148,7 +148,7 @@ function Home() {
             animate='final'>
             <FaRegSmile className='w-7 h-7' />
             <p className='uppercase'>
-               You've succesfully added {formDetails.name}
+               You&rsquo;ve succesfully added {formDetails.name}
             </p>
             <MdOutlineCancelPresentation className='w-5 h-5' />
          </motion.div>
