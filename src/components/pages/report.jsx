@@ -50,6 +50,7 @@ function Report() {
          setTableData({})
          let tempData = formDetails[handle].entries
          let tempSum = 0
+         let tempTable = {}
          Object.keys(tempData).map((data) => {
             let thisDate = new Date(tempData[data].entryDate)
             let startDate = new Date(formDate.start)
@@ -57,12 +58,13 @@ function Report() {
             tempData[data].name = handle
             if (((thisDate.toDateString() === startDate.toDateString()) || (thisDate.toDateString() === endDate.toDateString())) || ((thisDate > startDate) && (thisDate < endDate))) 
                {
-                  setTableData({ ...tableData, [data]: tempData[data]})
+                  tempTable[data] = tempData[data]
                   let temp = Number(tempData[data].entryAmount)
                   tempSum = temp + tempSum
-                  setShowTable(true)
                }
          })
+         setTableData(tempTable)
+         setShowTable(true)
          setSum(tempSum)
          setFormDate({
             start: '',
@@ -132,6 +134,9 @@ function Report() {
                <th className="font-thin py-4">
                   Amount
                </th>
+               <th className="font-thin py-4">
+                  CarryOver
+               </th>
             </tr>
          </thead>
          <tbody>
@@ -149,6 +154,9 @@ function Report() {
                      </td>
                      <td className="w-[200px] font-thin py-3 text-sm">
                         {tableData[data].entryAmount}
+                     </td>
+                     <td className="w-[200px] font-thin py-3 text-sm">
+                        {tableData[data].carryOver}
                      </td>
                   </tr>
                ))
